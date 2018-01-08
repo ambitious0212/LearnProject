@@ -2,30 +2,56 @@
  * 
  */
 
-//Ship 위치 저장 변수
-var location1 = 3;
-var location2 = 4;
-var location3 = 5;
+var shipA = [ "16", "26", "36" ]
 
-//Recoding용 변수
-var guessValue = 0;
-var hit = 0;
-
-//기타 변수
-var isSink = false;
-
-
-function shoot(){
-	guessValue = prompt("예상되는 전함의 좌표를 입력하세요 (1~6)");
+function init() {
+	var fireButton = document.getElementById("fireButton");
+	fireButton.onclick = fire;
 }
 
-function isHit(){
-	if((guessValue == location1) || (guessValue == location2) || (guessValue == location3)){
-		alert("명중!!!");
+function fire() {
+	var guess = document.getElementById("guessInput");
+	var inputLocation = guess.value;
+
+	console.log("fire : " + inputLocation);
+	//console.log(traslateCoordinate(inputLocation));
+	var transCoordinate = traslateCoordinate(inputLocation);
+	
+	var location = document.getElementById(transCoordinate);
+	if(shipA.indexOf(transCoordinate) != -1){
+		console.log("fire : " + transCoordinate);
+		location.setAttribute("class", "hit");
 	} else {
-		alert("다음 기회에...");
+		//location.setAttribute("class", "miss");
+		location.setAttribute("class", "miss");
 	}
 }
 
-shoot();
-isHit();
+function traslateCoordinate(inputCoordinate) {
+	var coordinateY = inputCoordinate[0];
+	var coordinateX = inputCoordinate[1];
+ 
+	console.log("coordinateX : " + coordinateX);
+	console.log("coordinateY : " + coordinateY);
+	
+	switch (coordinateY) {
+	case "A":
+		return "0" + coordinateX;
+	case "B":
+		return "1" + coordinateX;
+	case "C":
+		return "2" + coordinateX;
+	case "D":
+		return "3" + coordinateX;
+	case "E":
+		return "4" + coordinateX;
+	case "F":
+		return "5" + coordinateX;
+	case "G":
+		return "6" + coordinateX;
+	default:
+		console.log("traslateCoordinate : Input Value Error");
+	}
+}
+
+window.onload = init;
