@@ -4,9 +4,22 @@
 
 var shipA = [ "16", "26", "36" ]
 
+
+
 function init() {
 	var fireButton = document.getElementById("fireButton");
 	fireButton.onclick = fire;
+	
+	runUnitTest();
+}
+
+function runUnitTest(){
+	/* For Unit Test */
+	//view.displayMessage("표시");
+	//view.displayHit("00");
+	//view.displayMiss("66");
+	model.fire("10");
+	/* ************* */
 }
 
 function fire() {
@@ -55,3 +68,49 @@ function traslateCoordinate(inputCoordinate) {
 }
 
 window.onload = init;
+
+
+var view = {
+		displayMessage : function(msg){
+			var messageConsole = document.getElementById("messageArea");
+			console.log("[view.displayMessgae] message Console Object : " + messageConsole);
+			
+			messageConsole.innerHTML = msg;
+		},
+		
+		displayHit : function(coordinate){
+			var tempLocation = document.getElementById(coordinate);
+			tempLocation.setAttribute("class","hit");
+		},
+		
+		displayMiss : function(coordinate){
+			var tempLocation = document.getElementById(coordinate);
+			tempLocation.setAttribute("class","miss");
+		}
+};
+
+var model = {
+		boardSize : 6,
+		numShips : 3,
+		ships : [{locations: ["10", "20", "30"], hits : ["0", "0", "0"]},
+				{locations: ["32", "33", "34"], hits : ["0", "0", "0"]},
+				{locations: ["63", "64", "65"], hits : ["0", "0", "0"]}],
+		shipLength : 3,
+		shipsSunk : 0,
+		fire : function(guessValue){
+			for(var i=0; i<this.numShips; i++){
+				var tempShip = this.ships[i];
+				var locationOfShip = tempShip.locations;
+				
+				var index = locationOfShip.indexOf(guessValue);
+				
+				if(index >= 0){
+					console.log("[model.fire] Hit!!");
+					view.displayHit(guessValue);
+					view.displayMessage("명중!!!");
+				} else {
+					console.log("[model.fire] Miss!!");
+				}
+			}
+		}
+}
